@@ -1,0 +1,79 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   strings.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gscolera <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/12 14:50:15 by gscolera          #+#    #+#             */
+/*   Updated: 2019/04/12 14:50:19 by gscolera         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+#include "ft_printf.h"
+
+char	**strings_allocate(size_t size)
+{
+	char			**array;
+
+	array = (char **)ft_memalloc(sizeof(char *) * (size + 1));
+	if (!array)
+		return (NULL);
+	return (array);
+}
+
+void	free_strings(char **string)
+{
+	int	i;
+
+	if (string)
+	{
+		i = -1;
+		while (string[++i])
+			ft_strdel(&string[i]);
+		free(string);
+	}
+}
+
+void	print_strings(char **str)
+{
+	int i;
+
+	if (str)
+	{
+		i = -1;
+		while (str[++i])
+			ft_putendl(str[i]);
+	}
+}
+
+size_t	count_strings(char **strings)
+{
+	size_t	length;
+
+	if (!strings)
+		return (0);
+	length = 0;
+	while (strings[length])
+		length++;
+	return (length);
+}
+
+char	**copy_strings(char **strings)
+{
+	char	**new;
+	size_t	i;
+	size_t	length;
+
+	i = 0;
+	if (!(length = count_strings(strings)))
+		return (NULL);
+	new = strings_allocate(length);
+	while (i < length)
+	{
+		new[i] = ft_strdup(strings[i]);
+		i++;
+	}
+	return (new);
+}
