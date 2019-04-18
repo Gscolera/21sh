@@ -6,7 +6,7 @@
 /*   By: gscolera <gscolera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 15:21:15 by gscolera          #+#    #+#             */
-/*   Updated: 2019/04/12 14:46:00 by gscolera         ###   ########.fr       */
+/*   Updated: 2019/04/18 16:54:39 by gscolera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,11 @@ void			ft_memdel(void **ap);
 /*
  ****************************STRINGS****************************************
 */
-char			**strings_allocate(size_t size);
-void			free_strings(char **string);
-void			print_strings(char **str);
-size_t			count_strings(char **strings);
-char			**copy_strings(char **strings);
-bool			string_add(char ***string, char *str);
-char			*string_search(char **string, char *srhc);
+char			**ft_allocate_array(size_t size);
+void			ft_print_array(char **array);
+void			ft_free_array(char **array);
+size_t			ft_count_array(char **array);
+char			**ft_copy_array(char **array);
 size_t			ft_strlen(const char *str);
 char			*ft_strdup(const char *src);
 char			*ft_strcpy(char *dest, const char *src);
@@ -108,6 +106,7 @@ int				ft_isalnum(int c);
 int				ft_tolower(int c);
 int				ft_toupper(int c);
 char			*ft_itoa(int n);
+char			*ft_itoabuff(char *buff, int n);
 char			ft_getchar(int fd);
 
 #endif

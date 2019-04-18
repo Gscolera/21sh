@@ -48,11 +48,10 @@ typedef struct		s_reader
 
 typedef struct		s_shell
 {
-	int				error;
 	char			**env;
 	char			**intv;
-	char			*input;
 	char			**argv;
+	char			*input;
 	char			*escape[TOTAL_OPTIONS];
 	struct s_coord	crs[TOTAL_POSITIONS];
 	struct termios	default_settings;

@@ -1,61 +1,33 @@
 #include "shell.h"
 
-static char	*shell_find_binary(t_shell *sh)
+static bool	shell_builtin(char *command)
 {
-	char	*binary;
-	char	**path;
-	int		i;
-
-	binary = NULL;
-	if (access(sh->argv[0], F_OK))
-	{
-		path = ft_strsplit(shell_getvalue(sh, "PATH"), ':');
-		if (path)
-		{
-			i = -1;
-			while (path[++i] && !binary)
-			{
-				binary = ft_pathcat(path[i], sh->argv[0]);
-				ft_printf("%s\n", binary);
-				if (access(binary, F_OK))
-					ft_strdel(&binary);
-			}
-			free_strings(path);
-		}
-	}
-	else
-		binary = ft_strdup(sh->argv[0]);
-	return (binary);
+	return (ft_strequ(command, "cd") ||
+			ft_strequ(command, "echo") ||
+			ft_strequ(command, "unset") ||
+			ft_strequ(command, "export") ||
+			ft_strequ(command, "exit") ||
+			ft_strequ(command, "env"));
 }
 
-static void	shell_print_signal(int signal)
+static void	shell_execute_builtin(t_shell *sh)
 {
-	if (signal == SIGSEGV)
-		ft_perror("shell", "segmentation fault");
-	if (signal == SIGBUS)
-		ft_perror("shell", "bus error");
+	if (ft_strequ(sh->argv[0], "env"))
+		shell_print_env(sh);
+	else if (ft_strequ(sh->argv[0], "cd"))
+		shell_change_dir(sh);
+	else if (ft_strequ(sh->argv[0], "unset"))
+		shell_unset_env(sh);
+	else if (ft_strequ(sh->argv[0], "exit"))
+		g_flags = 0;
 }
 
-int			shell_execute_command(t_shell *sh)
+void		shell_execute_command(t_shell *sh)
 {
-	char	*binary;
-	pid_t	pid;
-	int		state;
-
-	binary = shell_find_binary(sh);
-	if (binary)
+	if (sh->argv)
 	{
-		pid = fork();
-		if (pid == -1)
-			return (shell_print_error(sh, SH_FORK_ERROR));
-		if (!pid)
-		{
-			execve(binary, sh->argv, sh->env);
-			exit(EXIT_SUCCESS);
-		}
-		else
-			waitpid(pid, &state, 0);
-		(WIFSIGNALED(state)) ? shell_print_signal(WTERMSIG(state)) : 0;
+		if (shell_builtin(sh->argv[0]))
+			shell_execute_builtin(sh);
 	}
-	ft_printf("HEllo");
+	ft_strdel(&sh->input);
 }

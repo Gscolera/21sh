@@ -2,6 +2,8 @@
 
 void	shell_close(t_shell *sh)
 {
-	free_strings(sh->env);
-	free_strings(sh->intv);
+	ft_free_array(sh->env);
+	ft_free_array(sh->intv);
+	ft_strdel(&sh->input);
+	ft_free_array(sh->argv);
 }

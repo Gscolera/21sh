@@ -29,28 +29,23 @@ static void	shell_get_terminal_mode(t_shell *sh)
 	sh->shell_settings.c_cc[VTIME] = 1;
 }
 
-static int	shell_set_internal_variables(t_shell *sh)
-{
-	
-}
-
 int			shell_open(t_shell *sh)
 {
-	extern char		**environ;
 	int				set_term;
 
 	ft_memset(sh, 0, sizeof(t_shell));
-	if (!(sh->env = copy_strings(environ)))
-		exit(shell_print_error(sh, SH_MALLOC_ERROR));
+	shell_get_env(sh);
+	if (!sh->env || !sh->intv)
+		exit(shell_print_error(SH_MALLOC_ERROR));
 	shell_get_terminal_mode(sh);
 	set_term = tgetent(NULL, shell_getvalue(sh, "TERM"));
 	if (!set_term)
-		exit(shell_print_error(sh, SH_TERM_NOT_DEF));
+		exit(shell_print_error(SH_TERM_NOT_DEF));
 	else if (set_term == -1)
-		exit(shell_print_error(sh, SH_TERM_NO_ACCESS));
+		exit(shell_print_error(SH_TERM_NO_ACCESS));
 	shell_get_escape_sequences(sh);
-	shell_set_internal_variables(sh);
 	shell_get_winsize();
 	shell_set_bg_color(sh);
 	shell_switch_flag(SHELL_ON);
+	return (0);
 }

@@ -1,79 +1,84 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   strings.c                                          :+:      :+:    :+:   */
+/*   ft_array.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gscolera <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/12 14:50:15 by gscolera          #+#    #+#             */
-/*   Updated: 2019/04/12 14:50:19 by gscolera         ###   ########.fr       */
+/*   Updated: 2019/04/18 16:54:29 by gscolera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "ft_printf.h"
 
-char	**strings_allocate(size_t size)
+char	**ft_allocate_array(size_t size)
 {
 	char			**array;
 
-	array = (char **)ft_memalloc(sizeof(char *) * (size + 1));
-	if (!array)
-		return (NULL);
-	return (array);
+	array = (char **)ft_memalloc(sizeof(char *) * (++size));
+	while (size--)
+		array[size] = NULL;
+	return ((array) ? array : NULL);
 }
 
-void	free_strings(char **string)
+void	ft_free_array(char **array)
 {
 	int	i;
 
-	if (string)
+	if (array)
 	{
 		i = -1;
-		while (string[++i])
-			ft_strdel(&string[i]);
-		free(string);
+		while (array[++i])
+			ft_strdel(&array[i]);
+		free(array);
 	}
 }
 
-void	print_strings(char **str)
+void	ft_print_array(char **array)
 {
 	int i;
 
-	if (str)
+	if (array)
 	{
 		i = -1;
-		while (str[++i])
-			ft_putendl(str[i]);
+		while (array[++i])
+			ft_putendl(array[i]);
 	}
 }
 
-size_t	count_strings(char **strings)
+size_t	ft_count_array(char **array)
 {
 	size_t	length;
 
-	if (!strings)
-		return (0);
 	length = 0;
-	while (strings[length])
-		length++;
+	if (array)
+	{
+		while (array[length])
+			length++;
+	}
 	return (length);
 }
 
-char	**copy_strings(char **strings)
+char	**ft_copy_array(char **array)
 {
 	char	**new;
 	size_t	i;
 	size_t	length;
 
 	i = 0;
-	if (!(length = count_strings(strings)))
-		return (NULL);
-	new = strings_allocate(length);
-	while (i < length)
+	new = NULL;
+	if ((length = ft_count_array(array)))
 	{
-		new[i] = ft_strdup(strings[i]);
-		i++;
+		if ((new = ft_allocate_array(length)))
+		{
+			while (i < length)
+			{
+				new[i] = ft_strdup(array[i]);
+				i++;
+			}
+		}
 	}
 	return (new);
 }

@@ -12,5 +12,5 @@ int		main(void)
 		shell_execute_command(&sh);
 	}
 	shell_close(&sh);
-	exit((sh.error) ? EXIT_FAILURE : EXIT_SUCCESS);
+	exit(EXIT_SUCCESS);
 }

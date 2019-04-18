@@ -12,7 +12,11 @@
 # include <pwd.h>
 # include <dirent.h>
 # include <signal.h>
-
+/*
+***************ENV************************************************************
+*/
+void			shell_get_env(t_shell *sh);
+void			shell_setenv(t_shell *sh, char *var, char *variable);
 /*
 ****************READER*********************************************************
 */
@@ -26,14 +30,20 @@ void			shell_manage_input(t_shell *sh);
 /*
 ****************EXECUTER*******************************************************
 */
-int				shell_execute_command(t_shell *sh);
+void			shell_execute_command(t_shell *sh);
+void			shell_run_binary(t_shell *sh);
+/*
+*****************BUILTIN*******************************************************
+*/
+int				shell_print_env(t_shell *sh);
+int				shell_change_dir(t_shell *sh);
 /*
 ****************TOOLS**********************************************************
 */
 int				shell_open(t_shell *sh);
 void			shell_close(t_shell *sh);
 void			shell_switch_flag(int flag);
-int				shell_print_error(t_shell *sh, int errno);
+int				shell_print_error(int errno);
 char			*shell_getvalue(t_shell *sh, char *variable);
 void			shell_get_cursor_position(struct s_coord *cursor);
 void			shell_get_winsize(void);

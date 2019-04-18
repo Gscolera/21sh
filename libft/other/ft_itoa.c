@@ -6,7 +6,7 @@
 /*   By: gscolera <gscolera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/21 21:33:46 by gscolera          #+#    #+#             */
-/*   Updated: 2018/11/25 17:50:40 by gscolera         ###   ########.fr       */
+/*   Updated: 2019/04/18 16:20:33 by gscolera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,27 @@ char		*ft_itoa(int n)
 		len--;
 	}
 	return (tmp);
+}
+
+char		*ft_itoabuff(char *buff, int n)
+{
+	size_t		len;
+
+	len = num_len(n);
+	if (n < 0)
+		buff[0] = '-';
+	else if (n > 0)
+		len--;
+	else
+		buff[0] = '0';
+	while (n)
+	{
+		if (n > 0)
+			buff[len] = '0' + (n % 10);
+		else
+			buff[len] = '0' + -(n % 10);
+		n = n / 10;
+		len--;
+	}
+	return (buff);
 }
