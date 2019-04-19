@@ -12,7 +12,7 @@
 
 #include "shell.h"
 
-void	shell_get_cursor_position(struct s_coord *cursor)
+void	shell_get_cursor_position(struct s_cursor *cursor)
 {
 	char buf[15];
 	int ret;
@@ -21,7 +21,7 @@ void	shell_get_cursor_position(struct s_coord *cursor)
 	i = -1;	
 	write(fileno(stdout), "\033[6n", 4);
 	ret = read(0, buf, 15);
-	ft_memset(cursor, 0, sizeof(struct s_coord));
+	ft_memset(cursor, 0, sizeof(struct s_cursor));
 	while (++i < ret && buf[i] != ';')
 	{
 		if (ft_isdigit(buf[i]))

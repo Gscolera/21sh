@@ -9,12 +9,13 @@ enum				e_options
 	CRS_RIGHT,
 	CRS_LEFT,
 	CRS_UP,
-	CRS_DOWN,
+	CRS_NS,
 	CRS_DEL,
 	CRS_SAVE,
 	CRS_RESTORE,
 	CRS_CLEAR,
 	SCREEN_CLEAR,
+	CRS_DOWN,
 	KEY_RIGHT,
 	KEY_LEFT,
 	KEY_UP,
@@ -25,7 +26,7 @@ enum				e_options
 	TOTAL
 };
 
-struct 				s_coord
+struct 				s_cursor
 {
 	size_t			x;
 	size_t			y;
@@ -40,8 +41,8 @@ typedef struct		s_reader
 	size_t			cp;
 	size_t			il;
 	char			*escape[TOTAL];
-	struct s_coord	home;
-	struct s_coord	crs;
+	struct s_cursor	home;
+	struct s_cursor	crs;
 }					t_reader;					
 
 typedef struct		s_command
@@ -62,6 +63,6 @@ typedef struct		s_shell
 }                   t_shell;
 
 int					g_flags;
-struct s_coord		g_winsize;
+struct s_cursor		g_winsize;
 
 #endif

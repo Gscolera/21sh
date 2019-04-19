@@ -16,8 +16,8 @@ void	shell_delete_char(t_reader *rd)
 {
 	rd->il--;
 	ft_delete_char(rd->input, rd->cp);
-	ACTION(CRS_CLEAR);
-	ACTION(CRS_SAVE);
+	TPUTS(CRS_CLEAR);
+	TPUTS(CRS_SAVE);
 	ft_putstr(&rd->input[rd->cp]);
-	ACTION(CRS_RESTORE);
+	TPUTS(CRS_RESTORE);
 }

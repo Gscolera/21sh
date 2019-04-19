@@ -1,7 +1,7 @@
 #ifndef SETTINGS_H
 # define SETTINGS_H
 
-# define ACTION(x)			tputs(rd->escape[x], fileno(stdout), ft_putchar)
+# define TPUTS(x)			tputs(rd->escape[x], fileno(stdout), ft_putchar)
 # define ESCAPE(b)			(b[0] == 27 && b[1] == 91)
 /*
 **************SETTINGS*********************************************************
@@ -27,6 +27,7 @@
 # define CHOOSE				(1 << 3)
 # define SQT				(1 << 5)
 # define DQT				(1 << 6)
+# define NS					(1 << 7)
 /*
 **************ERRORS***********************************************************
 */
@@ -42,6 +43,7 @@
 # define READING			(g_flags & READ)
 # define SEARCHING			(g_flags & SEARCH)
 # define CHOOSING			(g_flags & CHOOSE)
+# define NEW_STRING			(g_flags & NS)
 /*
 *************KEYS**************************************************************
 */

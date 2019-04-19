@@ -1,5 +1,6 @@
 NAME = 21sh
-SRC = main.c reader/*.c helpers/*.c lexer/*.c executer/*.c env/*.c builtin/*.c
+SRC = main.c reader/*.c helpers/*.c lexer/*.c executer/*.c env/*.c builtin/*.c \
+	  cursor/*.c
 OBJ = $(SRC:.c = .o)
 LIBFT = -L libft -lft
 TERMCAP = -ltermcap

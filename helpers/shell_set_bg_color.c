@@ -16,7 +16,7 @@ void	shell_set_bg_color(t_shell *sh, t_reader *rd)
 	size_t	y;
 
 	y = g_winsize.y;
-	ACTION(SCREEN_CLEAR);
+	TPUTS(SCREEN_CLEAR);
 	ft_putstr(BG_DEFAULT_COLOR);
 	while (y--)
 	{
@@ -24,7 +24,7 @@ void	shell_set_bg_color(t_shell *sh, t_reader *rd)
 	}
 	rd->crs.x = g_winsize.x;
 	rd->crs.y = g_winsize.y;
-	shell_goto(sh, rd, 1, 1);
+	cursor_goto(rd, 1, 1);
 }
 
 

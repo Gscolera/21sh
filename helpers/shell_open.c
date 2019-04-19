@@ -5,12 +5,13 @@ static void	shell_get_escape_sequences(t_reader *rd)
 	rd->escape[CRS_RIGHT] = tgetstr("nd", NULL);
 	rd->escape[CRS_LEFT] = tgetstr("le", NULL);
 	rd->escape[CRS_UP] = tgetstr("up", NULL);
-	rd->escape[CRS_DOWN] = tgetstr("do", NULL);
+	rd->escape[CRS_NS] = tgetstr("do", NULL);
 	rd->escape[CRS_DEL] = tgetstr("dc", NULL);
 	rd->escape[CRS_CLEAR] = tgetstr("cd", NULL);
 	rd->escape[CRS_SAVE] = tgetstr("sc", NULL);
 	rd->escape[CRS_RESTORE] = tgetstr("rc", NULL);
 	rd->escape[SCREEN_CLEAR] = tgetstr("cl", NULL);
+	rd->escape[CRS_DOWN] = "\033[B";
 	rd->escape[KEY_RIGHT] = "C";
 	rd->escape[KEY_LEFT] = "D";
 	rd->escape[KEY_UP] = "A";

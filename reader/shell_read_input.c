@@ -28,19 +28,19 @@ static void	shell_reset_reader(t_shell *sh, t_reader *rd)
 static void	manage_escape(t_shell *sh, t_reader *rd, char *esc)
 {
 	if (ft_strequ(esc, rd->escape[KEY_LEFT]) && rd->cp > 0)
-		shell_mvcl(sh, rd);
+		shell_prev_cur_pos(rd);
 	else if (ft_strequ(esc, rd->escape[KEY_RIGHT]) && rd->cp < rd->il)
-		shell_mvcr(sh, rd);
+		shell_next_cur_pos(rd);
 	else if (ft_strequ(esc, rd->escape[KEY_UP]))
-		shell_mvcu(rd);
+		NULL;
 	else if (ft_strequ(esc, rd->escape[KEY_DOWN]))
-		shell_mvcd(sh, rd);
+		NULL;
 	else if (ft_strequ(esc, rd->escape[KEY_HOME]))
-		shell_mvche(sh, rd, *esc);
+		shell_cursor_home(rd, *esc);
 	else if (ft_strequ(esc, rd->escape[KEY_END]))
-		shell_mvche(sh, rd, *esc);
-	else if (ft_strequ(esc, rd->escape[KEY_DELETE]) && rd->cp < rd->il)
-		shell_delete_char(rd);
+		shell_cursor_home(rd, *esc);
+	else if (ft_strequ(esc, rd->escape[KEY_DELETE]))
+		ft_putstr(tgetstr("ho", NULL));
 	ft_strclr(rd->buffer);
 }
 
@@ -50,7 +50,7 @@ static void	manage_key(t_shell *sh, t_reader *rd, char key)
 		shell_switch_flag(READ | SHELL_ON);
 	else if (key == KEY_BACKSPACE && rd->cp > 0)
 	{
-		shell_mvcl(sh, rd);
+		shell_prev_cur_pos(rd);
 		shell_delete_char(rd);
 	}
 	else if (key == KEY_ENTER)
@@ -81,5 +81,5 @@ void	shell_read_input(t_shell *sh, t_reader *rd)
 		ft_strclr(rd->buffer);
 	}
 	tcsetattr(fileno(stdout), TCSANOW, &sh->default_settings);
-	ACTION(CRS_DOWN);
+	TPUTS(CRS_DOWN);
 }

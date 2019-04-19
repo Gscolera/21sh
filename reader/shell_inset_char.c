@@ -12,8 +12,8 @@ void	shell_insert_char(t_shell *sh, t_reader *rd, char c)
 	}
 	rd->il++;
 	ft_insert_char(rd->input, c, rd->cp);
-	ACTION(CRS_SAVE);
+	TPUTS(CRS_SAVE);
 	ft_putstr(&rd->input[rd->cp]);
-	ACTION(CRS_RESTORE);
-	shell_mvcr(sh, rd);
+	TPUTS(CRS_RESTORE);
+	shell_next_cur_pos(rd);
 }
