@@ -1,0 +1,8 @@
+# Amount of last commands in memory
+HISTSIZE=100
+# Amount of last commands in file
+HISTFILESIZE=500
+# History file name
+HSFILE=.history
+#Promt default
+

@@ -1,6 +1,6 @@
 #include "shell.h"
 
-void	shell_set_bg_to_line(t_shell *sh)
+void	shell_set_bg_to_line(void)
 {
 	size_t	x;
 
@@ -11,21 +11,20 @@ void	shell_set_bg_to_line(t_shell *sh)
 	}
 }
 
-void	shell_set_bg_color(t_shell *sh)
+void	shell_set_bg_color(t_shell *sh, t_reader *rd)
 {
-	size_t	x;
 	size_t	y;
 
-	sh->crs[CURRENT].x = g_winsize.x;
-	sh->crs[CURRENT].y = g_winsize.y;
-	y = sh->crs[CURRENT].y;
+	y = g_winsize.y;
 	ACTION(SCREEN_CLEAR);
 	ft_putstr(BG_DEFAULT_COLOR);
 	while (y--)
 	{
-		shell_set_bg_to_line(sh);
+		shell_set_bg_to_line();
 	}
-	shell_goto(sh, 1, 1);
+	rd->crs.x = g_winsize.x;
+	rd->crs.y = g_winsize.y;
+	shell_goto(sh, rd, 1, 1);
 }
 
 

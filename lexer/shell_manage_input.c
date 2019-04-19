@@ -2,8 +2,8 @@
 
 void	shell_manage_input(t_shell *sh)
 {
-	if (sh->input)
+	if (sh->rd.input)
 	{
-		sh->argv = ft_strsplit(sh->input, ' ');
+		shell_get_commands(sh);
 	}
 }

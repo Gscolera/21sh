@@ -2,10 +2,10 @@
 
 void	shell_mvcr(t_shell *sh, t_reader *rd)
 {
-	if (sh->crs[CURRENT].x < g_winsize.x)
+	if (rd->crs.x < g_winsize.x)
 	{
 		ACTION(CRS_RIGHT);
-		sh->crs[CURRENT].x++;
+		rd->crs.x++;
 	}
 	else
 	{
@@ -16,59 +16,72 @@ void	shell_mvcr(t_shell *sh, t_reader *rd)
 
 void	shell_mvcl(t_shell *sh, t_reader *rd)
 {
-	if (sh->crs[CURRENT].x > 1)
+	if (rd->crs.x > 1)
 	{
 		ACTION(CRS_LEFT);
-		sh->crs[CURRENT].x--;
+		rd->crs.x--;
 	}
 	else
 	{
-		shell_goto(sh, g_winsize.x, sh->crs[CURRENT].y - 1);
+		shell_mvcu(rd);
+		while (rd->crs.x < g_winsize.x)
+		{
+			ACTION(CRS_RIGHT);
+			rd->crs.x++;
+		}
 	}
 	(READING) ? --rd->cp : 0;
 }
 
 void	shell_mvcd(t_shell *sh, t_reader *rd)
 {
-	if (sh->crs[CURRENT].y < g_winsize.y)
+	ACTION(CRS_DOWN);
+	if (rd->crs.y < g_winsize.y)
 	{
-		ACTION(CRS_DOWN);
-		sh->crs[CURRENT].y++;
-		sh->crs[CURRENT].x = 1;
+		rd->crs.y++;
+		rd->crs.x = 1;
 	}
 	else
 	{
-		ACTION(CRS_DOWN);
-		shell_set_bg_to_line(sh);
-		shell_goto(sh, 1, g_winsize.y);
-		sh->crs[CURRENT].x = 1;
-		sh->crs[HOME].y--;
+		shell_set_bg_to_line();
+		shell_goto(sh, rd, 1, g_winsize.y);
+		rd->crs.x = 1;
+		rd->home.y--;
 	}
 }
 
-void	shell_mvcu(t_shell *sh, t_reader *rd)
+void	shell_mvcu(t_reader *rd)
 {
-	if (sh->crs[CURRENT].y > 1)
+	if (rd->crs.y > 1)
 	{
 		ACTION(CRS_UP);
-		sh->crs[CURRENT].y--;
+		rd->crs.y--;
 	}
 }
 
-void	shell_goto(t_shell *sh, size_t x, size_t y)
+void	shell_goto(t_shell *sh, t_reader *rd, size_t x, size_t y)
 {
 	if (y <= g_winsize.y && y > 0 && x <= g_winsize.x && x > 0)
 	{
-		while (sh->crs[CURRENT].y != y)
+		while (rd->crs.y != y)
 		{
-			(sh->crs[CURRENT].y < y) ? ACTION(CRS_DOWN) : ACTION(CRS_UP);
-			(sh->crs[CURRENT].y < y) ? sh->crs[CURRENT].x = 1 : 0;
-			sh->crs[CURRENT].y += (sh->crs[CURRENT].y < y) ? 1 : -1;
+			if (rd->crs.y < y)
+			{
+				ACTION(CRS_DOWN);
+				rd->crs.y++;
+				rd->crs.x = 1;
+			}
+			else
+			{
+				ACTION(CRS_UP);
+				rd->crs.y--;
+			}
 		}
-		while (sh->crs[CURRENT].x != x)
+		while (rd->crs.x != x)
 		{
-			(sh->crs[CURRENT].x < x) ? ACTION(CRS_RIGHT) : ACTION(CRS_LEFT);
-			sh->crs[CURRENT].x += (sh->crs[CURRENT].x < x) ? 1 : -1;
+			(rd->crs.x < x) ? ACTION(CRS_RIGHT) : ACTION(CRS_LEFT);
+			rd->crs.x += (rd->crs.x < x) ? 1 : -1;
+				
 		}
 	}
 }

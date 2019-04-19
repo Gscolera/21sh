@@ -21,15 +21,8 @@ enum				e_options
 	KEY_DOWN,
 	KEY_HOME,
 	KEY_END,
-	TOTAL_OPTIONS
-};
-
-enum				e_cursorpos
-{
-	HOME,
-	CURRENT,
-	END,
-	TOTAL_POSITIONS
+	KEY_DELETE,
+	TOTAL
 };
 
 struct 				s_coord
@@ -40,20 +33,30 @@ struct 				s_coord
 
 typedef struct		s_reader
 {
-	char			buffer[ARG_MAX + 1];
-	char			input[ARG_MAX + 1];
+	char			promt[PROMT_MAX];
+	char			buffer[RD_BUFFER_SIZE + 1];
+	char			*input;
+	size_t			buffer_size;
 	size_t			cp;
 	size_t			il;
+	char			*escape[TOTAL];
+	struct s_coord	home;
+	struct s_coord	crs;
 }					t_reader;					
+
+typedef struct		s_command
+{
+	char			line[CMD_MAX];
+	char			**argv;
+}					t_command;
 
 typedef struct		s_shell
 {
 	char			**env;
 	char			**intv;
 	char			**argv;
-	char			*input;
-	char			*escape[TOTAL_OPTIONS];
-	struct s_coord	crs[TOTAL_POSITIONS];
+	t_reader		rd;
+	t_command		*cmd;
 	struct termios	default_settings;
 	struct termios	shell_settings;
 }                   t_shell;

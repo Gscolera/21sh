@@ -2,14 +2,14 @@
 
 void	shell_mvche(t_shell *sh, t_reader *rd, char direction)
 {
-	if (direction == 'H')
+	if (direction == 'H' && READING)
 	{
-		shell_goto(sh, sh->crs[HOME].x, sh->crs[HOME].y);
+		shell_goto(sh, rd, rd->home.x, rd->home.y);
 		rd->cp = 0;
 	}
-	else
+	else if (READING)
 	{
-		shell_goto(sh, sh->crs[END].x, sh->crs[END].y);
-		rd->cp = rd->il;
+		while (rd->cp != rd->il)
+			shell_mvcr(sh, rd);
 	}
 }

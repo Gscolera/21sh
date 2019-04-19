@@ -29,5 +29,4 @@ void		shell_execute_command(t_shell *sh)
 		if (shell_builtin(sh->argv[0]))
 			shell_execute_builtin(sh);
 	}
-	ft_strdel(&sh->input);
 }
