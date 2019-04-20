@@ -51,9 +51,9 @@ static void	manage_escape(t_shell *sh, t_reader *rd, char *esc)
 	else if (ft_strequ(esc, KEY_RIGHT) && rd->cp < rd->il)
 		shell_next_cur_pos(rd);
 	else if (ft_strequ(esc, KEY_UP))
-		NULL;
-	else if (ft_strequ(esc, KEY_DOWN))
-		NULL;
+		shell_prev_command(sh, rd);
+	else if (ft_strequ(esc, KEY_DOWN) && SCROLLING)
+		shell_next_command(sh, rd);
 	else if (ft_strequ(esc, KEY_HOME))
 		shell_cursor_home(rd, *esc);
 	else if (ft_strequ(esc, KEY_END))
@@ -88,8 +88,12 @@ static void	parse_buffer(t_shell *sh, t_reader *rd, char *buffer)
 {
 	while (*buffer)
 	{
-		if (ft_isprint(*buffer) && rd->il < CMD_MAX)
-			shell_insert_char(sh, rd, *buffer);
+		if (ft_isprint(*buffer))
+		{
+			shell_insert_char(rd, *buffer);
+			if (SCROLLING)
+				shell_reset_history_ptr(sh);
+		}
 		else if (ESCAPE(buffer))
 			manage_escape(sh, rd, buffer + 2);
 		else if (*buffer > 0)

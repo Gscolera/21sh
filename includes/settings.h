@@ -27,6 +27,9 @@
 # define SQT				(1 << 5)
 # define DQT				(1 << 6)
 # define NS					(1 << 7)
+# define SCROLL				(1 << 8)
+# define HFO				(1 << 9)
+# define RHF				(1 << 10)
 /*
 **************ERRORS***********************************************************
 */
@@ -43,6 +46,9 @@
 # define SEARCHING			(g_flags & SEARCH)
 # define CHOOSING			(g_flags & CHOOSE)
 # define NEW_STRING			(g_flags & NS)
+# define SCROLLING			(g_flags & SCROLL)
+# define HISTORYFILE_OPENED	(g_flags & HFO)
+# define READING_HSFILE		(g_flags & HFO)
 /*
 *************KEYS**************************************************************
 */

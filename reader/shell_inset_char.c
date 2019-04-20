@@ -1,6 +1,6 @@
 #include "shell.h"
 
-void	shell_insert_char(t_shell *sh, t_reader *rd, char c)
+void	shell_insert_char(t_reader *rd, char c)
 {
 	if (rd->il == rd->buffer_size - 2)
 	{
@@ -16,4 +16,16 @@ void	shell_insert_char(t_shell *sh, t_reader *rd, char c)
 	ft_putstr(&rd->input[rd->cp]);
 	TPUTS(CRS_RESTORE);
 	shell_next_cur_pos(rd);
+}
+
+void	shell_insert_string(t_reader *rd, char *string)
+{
+	if (string)
+	{
+		while (*string)
+		{
+			shell_insert_char(rd, *string);
+			string++;
+		}
+	}
 }

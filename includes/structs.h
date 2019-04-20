@@ -48,6 +48,7 @@ typedef struct		s_buffer
 {
 	char			*data;
 	size_t			id;
+	struct s_buffer	*prev;
 	struct s_buffer	*next;
 }					t_buffer;
 
@@ -56,11 +57,13 @@ typedef struct		s_shell
 	char			**env;
 	char			**intv;
 	char			**argv;
+	int				fd;
 	t_reader		rd;
 	t_command		*cmd;
 	t_buffer		*history;
 	t_buffer		*hist_ptr;
 	t_buffer		*hist_last;
+	t_buffer		*tmp;
 	struct termios	default_settings;
 	struct termios	shell_settings;
 }                   t_shell;

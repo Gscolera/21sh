@@ -1,5 +1,5 @@
 # Amount of last commands in memory
-HISTSIZE=100
+HISTSIZE=2
 # Amount of last commands in file
 HISTFILESIZE=500
 # History file name
