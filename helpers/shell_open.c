@@ -12,13 +12,7 @@ static void	shell_get_escape_sequences(t_reader *rd)
 	rd->escape[CRS_RESTORE] = tgetstr("rc", NULL);
 	rd->escape[SCREEN_CLEAR] = tgetstr("cl", NULL);
 	rd->escape[CRS_DOWN] = "\033[B";
-	rd->escape[KEY_RIGHT] = "C";
-	rd->escape[KEY_LEFT] = "D";
-	rd->escape[KEY_UP] = "A";
-	rd->escape[KEY_DOWN] = "B";
-	rd->escape[KEY_HOME] = "H";
-	rd->escape[KEY_END] = "F";
-	rd->escape[KEY_DELETE] = "3~";
+	TPUTS(SCREEN_CLEAR);
 }
 
 static void	shell_get_terminal_mode(t_shell *sh)
@@ -47,7 +41,6 @@ int			shell_open(t_shell *sh)
 		exit(shell_print_error(SH_TERM_NO_ACCESS));
 	shell_get_escape_sequences(&sh->rd);
 	shell_get_winsize();
-	shell_set_bg_color(sh, &sh->rd);
 	shell_switch_flag(SHELL_ON);
 	return (0);
 }

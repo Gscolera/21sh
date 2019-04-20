@@ -16,13 +16,6 @@ enum				e_options
 	CRS_CLEAR,
 	SCREEN_CLEAR,
 	CRS_DOWN,
-	KEY_RIGHT,
-	KEY_LEFT,
-	KEY_UP,
-	KEY_DOWN,
-	KEY_HOME,
-	KEY_END,
-	KEY_DELETE,
 	TOTAL
 };
 
@@ -51,6 +44,13 @@ typedef struct		s_command
 	char			**argv;
 }					t_command;
 
+typedef struct		s_buffer
+{
+	char			*data;
+	size_t			id;
+	struct s_buffer	*next;
+}					t_buffer;
+
 typedef struct		s_shell
 {
 	char			**env;
@@ -58,6 +58,9 @@ typedef struct		s_shell
 	char			**argv;
 	t_reader		rd;
 	t_command		*cmd;
+	t_buffer		*history;
+	t_buffer		*hist_ptr;
+	t_buffer		*hist_last;
 	struct termios	default_settings;
 	struct termios	shell_settings;
 }                   t_shell;

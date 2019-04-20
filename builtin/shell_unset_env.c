@@ -6,7 +6,7 @@
 /*   By: gscolera <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 18:13:57 by gscolera          #+#    #+#             */
-/*   Updated: 2019/04/19 13:07:14 by gscolera         ###   ########.fr       */
+/*   Updated: 2019/04/20 16:53:43 by gscolera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,22 @@ static bool	shell_unset_variable(char **array, char *var)
 	}
 	return (0);
 }
+
+static bool	shell_critical_variable(char *variable)
+{
+	return (ft_strequ(variable, "HISTSIZE") ||
+			ft_strequ(variable, "HISTFILESIZE") || 
+			ft_strequ(variable, "INTBS"));
+}
+
 int		shell_unset_env(t_shell *sh)
 {
 	int		i;
 
 	if (!sh->argv[1])
 		return (ft_perror("unset", "not enough arguments"));
+	else if (shell_critical_variable(sh->argv[1]))
+		return (ft_perror(sh->argv[1], "can't unset critical variable"));
 	i = -1;
 	while (sh->argv[++i])
 	{

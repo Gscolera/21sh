@@ -4,10 +4,29 @@ void	print_seq(char *seq)
 {
 	while (*seq)
 	{
-		ft_printf("%d ", *seq);
+		ft_printf("%c ", *seq);
 		seq++;
 	}
 	ft_printf("\n");
+}
+
+void	test(t_reader *rd)
+{
+	int fd = open("test", O_RDWR | O_CREAT, S_IWUSR | S_IRUSR);
+
+	ft_putstr_fd("CP ", fd);
+	ft_putnbr_fd(rd->cp, fd);
+	ft_putchar_fd('\n', fd);
+	ft_putstr_fd("CX ", fd);
+	ft_putnbr_fd(rd->crs.x, fd);
+	ft_putchar_fd('\n', fd);
+	ft_putstr_fd("CY ", fd);
+	ft_putnbr_fd(rd->crs.y, fd);
+	ft_putchar_fd('\n', fd);
+	ft_putstr_fd("IL ", fd);
+	ft_putnbr_fd(rd->il, fd);
+	ft_putchar_fd('\n', fd);
+	close(fd);
 }
 
 static void	shell_reset_reader(t_shell *sh, t_reader *rd)
@@ -27,20 +46,28 @@ static void	shell_reset_reader(t_shell *sh, t_reader *rd)
 
 static void	manage_escape(t_shell *sh, t_reader *rd, char *esc)
 {
-	if (ft_strequ(esc, rd->escape[KEY_LEFT]) && rd->cp > 0)
+	if (ft_strequ(esc, KEY_LEFT) && rd->cp > 0)
 		shell_prev_cur_pos(rd);
-	else if (ft_strequ(esc, rd->escape[KEY_RIGHT]) && rd->cp < rd->il)
+	else if (ft_strequ(esc, KEY_RIGHT) && rd->cp < rd->il)
 		shell_next_cur_pos(rd);
-	else if (ft_strequ(esc, rd->escape[KEY_UP]))
+	else if (ft_strequ(esc, KEY_UP))
 		NULL;
-	else if (ft_strequ(esc, rd->escape[KEY_DOWN]))
+	else if (ft_strequ(esc, KEY_DOWN))
 		NULL;
-	else if (ft_strequ(esc, rd->escape[KEY_HOME]))
+	else if (ft_strequ(esc, KEY_HOME))
 		shell_cursor_home(rd, *esc);
-	else if (ft_strequ(esc, rd->escape[KEY_END]))
+	else if (ft_strequ(esc, KEY_END))
 		shell_cursor_home(rd, *esc);
-	else if (ft_strequ(esc, rd->escape[KEY_DELETE]))
-		ft_putstr(tgetstr("ho", NULL));
+	else if (ft_strequ(esc, KEY_DELETE))
+		test(rd);
+	else if (ft_strequ(esc, SHIFTED_RIGHT))
+		shell_next_word(rd);
+	else if (ft_strequ(esc, SHIFTED_LEFT))
+		shell_prev_word(rd);
+	else if (ft_strequ(esc, SHIFTED_UP))
+		shell_prev_line(rd);
+	else if (ft_strequ(esc, SHIFTED_DOWN))
+		shell_next_line(rd);
 	ft_strclr(rd->buffer);
 }
 
@@ -80,6 +107,8 @@ void	shell_read_input(t_shell *sh, t_reader *rd)
 		parse_buffer(sh, rd, rd->buffer);
 		ft_strclr(rd->buffer);
 	}
+	shell_cursor_home(rd, 'F');
 	tcsetattr(fileno(stdout), TCSANOW, &sh->default_settings);
-	TPUTS(CRS_DOWN);
+	shell_save_input(sh, ft_strtrim(rd->input));
+	TPUTS(CRS_NS);
 }

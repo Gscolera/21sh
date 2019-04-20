@@ -27,6 +27,10 @@ void			shell_delete_char(t_reader *rd);
 void			shell_next_cur_pos(t_reader *rd);
 void			shell_prev_cur_pos(t_reader *rd);
 void			shell_cursor_home(t_reader *rd, char direction);
+void			shell_next_word(t_reader *rd);
+void			shell_prev_word(t_reader *rd);
+void			shell_next_line(t_reader *rd);
+void			shell_prev_line(t_reader *rd);
 /*
 ****************LEXER**********************************************************
 */
@@ -43,6 +47,11 @@ void			shell_run_binary(t_shell *sh);
 int				shell_print_env(t_shell *sh);
 int				shell_change_dir(t_shell *sh);
 int				shell_unset_env(t_shell *sh);
+/*
+*****************HISTORY********************************************************
+*/
+void			shell_save_input(t_shell *sh, char *input);
+int				shell_save_history(t_shell *sh);
 /*
 ****************HELPERS**********************************************************
 */

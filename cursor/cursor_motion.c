@@ -38,6 +38,7 @@ void	cursor_left(t_reader *rd)
 		cursor_up(rd);
 		while (x--)
 			TPUTS(CRS_RIGHT);
+		rd->crs.x = g_winsize.x;
 	}
 }
 
