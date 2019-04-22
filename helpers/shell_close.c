@@ -15,6 +15,8 @@
 
 void		shell_close(t_shell *sh)
 {
+	if (HISTORYFILE_OPENED)
+		shell_delete_uploaded_history(sh);
 	shell_save_history(sh);
 	ft_free_array(sh->env);
 	ft_free_array(sh->intv);

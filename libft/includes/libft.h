@@ -20,19 +20,6 @@
 # include <fcntl.h>
 # include <stdio.h>
 
-# define GNL_BUFF_SIZE 100
-
-typedef struct	s_file
-{
-	char				*data;
-	int					fd;
-	int					ret;
-	struct s_file		*next;
-}				t_file;
-
-int				get_next_line(const int fd, char **line);
-
-
 /*
 ******************************MEMORY****************************************
 */
@@ -82,6 +69,7 @@ void			ft_insert_char(char *string, char c, size_t position);
 void			ft_delete_char(char *string, size_t pos);
 size_t			ft_wchar_len(wchar_t c);
 size_t			ft_wstr_len(wchar_t *wstr);
+char			*ft_strrstr(char *string, char *srch);
 /*
 *****************************PUTS**********************************************
 */
@@ -108,5 +96,6 @@ int				ft_toupper(int c);
 char			*ft_itoa(int n);
 char			*ft_itoabuff(char *buff, int n);
 char			ft_getchar(int fd);
+int				get_next_line(const int fd, char *buffer, size_t buff_size);
 
 #endif

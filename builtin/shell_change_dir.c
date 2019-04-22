@@ -17,7 +17,7 @@ void	shell_set_pwd(t_shell *sh)
 	char	pwd[LINE_MAX];
 
 	getcwd(pwd, LINE_MAX);
-	shell_setenv(sh, "OLDPWD", shell_getvalue(sh, "PWD"));
+	shell_setenv(sh, "OLDPWD", shell_get_value(sh, "PWD"));
 	shell_setenv(sh, "PWD", pwd);
 }
 
@@ -29,14 +29,14 @@ int		shell_change_dir(t_shell *sh)
 	
 	if (sh->argv[1] && ft_strequ(sh->argv[1], "-"))
 	{
-		if (!(directory = shell_getvalue(sh, "OLDPWD")))
+		if (!(directory = shell_get_value(sh, "OLDPWD")))
 			return (shell_print_error(SH_VAR_NOT_SET));
 	}
 	else if (sh->argv[1])
 		directory = sh->argv[1];
 	else if (!sh->argv[1])
 	{
-		if (!(directory = shell_getvalue(sh, "HOME")))
+		if (!(directory = shell_get_value(sh, "HOME")))
 			return (shell_print_error(SH_VAR_NOT_SET));
 	}
 	if (access(directory, F_OK))

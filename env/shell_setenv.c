@@ -56,7 +56,7 @@ void	shell_setenv(t_shell *sh, char *var, char *value)
 		ft_strcat(new_env, "=");
 		ft_strcat(new_env, value);
 	}
-	if (shell_getvalue(sh, var))
+	if (shell_get_value(sh, var))
 	{
 		shell_set_new_value(sh, new_env, var);
 	}

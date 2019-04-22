@@ -14,17 +14,17 @@
 
 void	shell_next_word(t_reader *rd)
 {
-	while (rd->cp < rd->il && rd->input[rd->cp] > 32)
+	while (!CURSOR_IN_THE_END && rd->input[rd->cp] > 32)
 		shell_next_cur_pos(rd);
-	while (rd->cp < rd->il && rd->input[rd->cp] <= 32)
+	while (!CURSOR_IN_THE_END && rd->input[rd->cp] <= 32)
 		shell_next_cur_pos(rd);
 }
 
 void	shell_prev_word(t_reader *rd)
 {
-	while (rd->cp > 0 && rd->input[rd->cp - 1] <= 32)
+	while (!CURSOR_AT_HOME && rd->input[rd->cp - 1] <= 32)
 		shell_prev_cur_pos(rd);
-	while (rd->cp > 0 && rd->input[rd->cp - 1] > 32)
+	while (!CURSOR_AT_HOME && rd->input[rd->cp - 1] > 32)
 		shell_prev_cur_pos(rd);
 }
 
@@ -48,4 +48,18 @@ void	shell_prev_line(t_reader *rd)
 		while (rd->cp > rd->il)
 			shell_next_cur_pos(rd);
 	}
+}
+
+void	shell_new_string(t_reader *rd)
+{
+	TPUTS(CRS_NS);
+	if (rd->crs.y < g_winsize.y)
+	{
+		rd->crs.y++;
+	}
+	else
+	{
+		rd->home.y--;
+	}
+	rd->crs.x = 1;
 }

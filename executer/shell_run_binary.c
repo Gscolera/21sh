@@ -21,7 +21,7 @@ static char	*shell_find_binary(t_shell *sh)
 	binary = NULL;
 	if (access(sh->argv[0], F_OK))
 	{
-		path = ft_strsplit(shell_getvalue(sh, "PATH"), ':');
+		path = ft_strsplit(shell_get_value(sh, "PATH"), ':');
 		if (path)
 		{
 			i = -1;

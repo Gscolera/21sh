@@ -12,7 +12,7 @@
 
 #include "shell.h"
 
-void		shell_get_commands(t_shell *sh)
+void		shell_get_commands(t_shell *sh, char *input)
 {
-
+	
 }

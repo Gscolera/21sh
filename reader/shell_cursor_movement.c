@@ -16,12 +16,12 @@ void	shell_prev_cur_pos(t_reader *rd)
 
 void	shell_cursor_home(t_reader *rd, char direction)
 {
-	if (direction == 'H' && READING)
+	if (direction == 'H' || direction == 'E')
 	{
 		cursor_goto(rd, rd->home.x, rd->home.y);
 		rd->cp = 0;
 	}
-	else if (READING)
+	if (direction == 'E')
 	{
 		while (rd->cp != rd->il)
 			shell_next_cur_pos(rd);

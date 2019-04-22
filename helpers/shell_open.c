@@ -21,8 +21,8 @@ static void	shell_get_terminal_mode(t_shell *sh)
 	sh->shell_settings = sh->default_settings;
 	sh->shell_settings = sh->default_settings;
 	sh->shell_settings.c_lflag &= ~(ECHO | ICANON);
-	sh->shell_settings.c_cc[VMIN] = 0;
-	sh->shell_settings.c_cc[VTIME] = 1;
+	sh->shell_settings.c_cc[VMIN] = 1;
+	sh->shell_settings.c_cc[VTIME] = 0;
 }
 
 int			shell_open(t_shell *sh)
@@ -34,7 +34,7 @@ int			shell_open(t_shell *sh)
 	if (!sh->env || !sh->intv)
 		exit(shell_print_error(SH_MALLOC_ERROR));
 	shell_get_terminal_mode(sh);
-	set_term = tgetent(NULL, shell_getvalue(sh, "TERM"));
+	set_term = tgetent(NULL, shell_get_value(sh, "TERM"));
 	if (!set_term)
 		exit(shell_print_error(SH_TERM_NOT_DEF));
 	else if (set_term == -1)

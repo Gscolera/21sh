@@ -9,7 +9,7 @@ int		main(void)
 	{
 		shell_read_input(&sh, &sh.rd);
 		shell_manage_input(&sh);
-		shell_execute_command(&sh);
+		shell_execute_commands(&sh);
 	}
 	shell_close(&sh);
 	exit(EXIT_SUCCESS);

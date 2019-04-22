@@ -14,25 +14,22 @@
 
 static void	shell_read_shellrc(t_shell *sh)
 {
-	int 	fd;
 	int		i;
-	char	*line;
-	size_t	buff_size;
+	char	buffer[ENV_MAX];
+	size_t	env_size;
 
-	if (!(buff_size = ft_atoi(shell_getvalue(sh, "INTBS"))))
-		buff_size = INTV_BUFFER_SIZE;
+	if (!(env_size = shell_get_num_value(sh, "INTBS")))
+		env_size = INTV_BUFFER_SIZE;
 	if (!access(SHELLRC, F_OK) && !access(SHELLRC, R_OK))
 	{
 		i = 0;
-		fd = open(SHELLRC, O_RDONLY);
-		while (get_next_line(fd, &line))
+		sh->fd = open(SHELLRC, O_RDONLY);
+		while (get_next_line(sh->fd, buffer, ENV_MAX))
 		{
-			if (line[0] == '#')
-				ft_strdel(&line);
-			else if (++i < buff_size)
-				sh->intv[i] = line;
+			if (!IS_COMMENT(buffer) && ++i < env_size)
+				sh->intv[i] = ft_strdup(buffer);
 		}
-		close(fd);
+		close(sh->fd);
 	}
 }
 
@@ -43,11 +40,11 @@ static void	shell_get_internal_variables(t_shell *sh)
 	ft_memset(buffer, 0, 21);
 	shell_read_shellrc(sh);
 	shell_setenv(sh, "INTBS", ft_itoabuff(buffer, INTV_BUFFER_SIZE));
-	if (!shell_getvalue(sh, "HISTSIZE")) 
+	if (!shell_get_value(sh, "HISTSIZE")) 
 		shell_setenv(sh, "HISTSIZE", HISTSIZE);
-	if (!shell_getvalue(sh, "HISTFILESIZE"))
+	if (!shell_get_value(sh, "HISTFILESIZE"))
 		shell_setenv(sh, "HISTFILESIZE", HISTFILESIZE);
-	if (!shell_getvalue(sh, "HSFILE"))
+	if (!shell_get_value(sh, "HSFILE"))
 		shell_setenv(sh, "HSFILE", HSFILE);
 	shell_setenv(sh, "?", "0");
 

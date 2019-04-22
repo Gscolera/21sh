@@ -1,6 +1,6 @@
 #include "shell.h"
 
-char	*shell_getvalue(t_shell *sh, char *variable)
+char	*shell_get_value(t_shell *sh, char *variable)
 {
 	int		i;
 	size_t	len;
@@ -21,4 +21,9 @@ char	*shell_getvalue(t_shell *sh, char *variable)
 
 	}
 	return (NULL);
+}
+
+int		shell_get_num_value(t_shell *sh, char *variable)
+{
+	return (ft_atoi(shell_get_value(sh, variable)));
 }

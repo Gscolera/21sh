@@ -10,23 +10,34 @@ static bool	shell_builtin(char *command)
 			ft_strequ(command, "env"));
 }
 
-static void	shell_execute_builtin(t_shell *sh)
+static void	shell_execute_builtin(t_shell *sh, char *command)
 {
-	if (ft_strequ(sh->argv[0], "env"))
+	if (ft_strequ(command, "env"))
 		shell_print_env(sh);
-	else if (ft_strequ(sh->argv[0], "cd"))
+	else if (ft_strequ(command, "cd"))
 		shell_change_dir(sh);
-	else if (ft_strequ(sh->argv[0], "unset"))
+	else if (ft_strequ(command, "unset"))
 		shell_unset_env(sh);
-	else if (ft_strequ(sh->argv[0], "exit"))
+	else if (ft_strequ(command, "exit"))
 		g_flags = 0;
 }
 
-void		shell_execute_command(t_shell *sh)
+static void	shell_go_to_the_next_command(t_shell *sh)
 {
-	if (sh->argv)
+	t_command	*tmp;
+
+	tmp = sh->cmd->next;
+	ft_free_array(sh->cmd->argv);
+	free(sh->cmd);
+	sh->cmd = tmp;
+}
+
+void		shell_execute_commands(t_shell *sh)
+{
+	while (sh->cmd)
 	{
-		if (shell_builtin(sh->argv[0]))
-			shell_execute_builtin(sh);
+		if (shell_builtin(sh->cmd->argv[0]))
+			shell_execute_builtin(sh, sh->cmd->argv[0]);
+		shell_go_to_the_next_command(sh);
 	}
 }

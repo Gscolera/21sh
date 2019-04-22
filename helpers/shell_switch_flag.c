@@ -4,10 +4,12 @@ void	shell_switch_flag(int flag)
 {
 	if (g_flags & flag)
 	{
-		g_flags &= ~flag;
+		TURN_OFF(flag);
 	}
 	else
 	{
-		g_flags |= flag;
+		TURN_ON(flag);
 	}
 }
+
+

@@ -12,67 +12,69 @@
 
 #include "shell.h"
 
-
 static void		shell_create_history(t_shell *sh, int fd)
 {
-	t_buffer	*tmp;
-
 	while (sh->history)
 	{
-		tmp = sh->history->next;
+		sh->hist_ptr = sh->history->next;
 		ft_putendl_fd(sh->history->data, fd);
 		ft_strdel(&sh->history->data);
 		free(sh->history);
-		sh->history = tmp;
+		sh->history = sh->hist_ptr;
 	}
+	sh->hist_last = NULL;
 }
 
 static int		shell_edit_history(t_shell *sh, int fd)
 {
-	int		tmp;
-	char	*line;
-	size_t	id;
-	size_t	hist_size;
+	int		backup_file;
+	char	buffer[CMD_MAX];
+	size_t	hist_file_size;
+	size_t	history_size;
 
-	tmp = open(".tmp", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
-	if (tmp == -1)
+	backup_file = open(".tmp", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
+	if (backup_file == -1)
 		return (ft_perror("shell", "unable to create backup file"));
-	id = sh->history->id;
-	hist_size = ft_atoi(shell_getvalue(sh, "HISTFILESIZE"));
-	shell_create_history(sh, tmp);
-	ft_printf("%d %d", id, hist_size);
-	while (get_next_line(fd, &line))
+	hist_file_size = shell_get_num_value(sh, "HISTFILESIZE");
+	history_size = (sh->history) ? sh->history->id : 0;
+	shell_create_history(sh, backup_file);
+	while (++history_size <= hist_file_size)
 	{
-		if (id++ < hist_size)
-			ft_putendl_fd(line, tmp);
-		ft_strdel(&line);
+		if (get_next_line(fd, buffer, CMD_MAX))
+		{
+			ft_putendl_fd(buffer, backup_file);
+		}
+		else
+		{
+			break ;
+		}
 	}
-	close(fd);
-	close(tmp);
+	close(sh->fd);
+	close(backup_file);
 	return (0);
 }
 
 int			shell_save_history(t_shell *sh)
 {
 	char	*hsfile;
-	int		fd;
 
-	if (!(hsfile = shell_getvalue(sh, "HSFILE")))
+	if (!(hsfile = shell_get_value(sh, "HSFILE")))
 		hsfile = HSFILE;
 	if (!access(hsfile, F_OK))
 	{
-		if ((fd = open(hsfile, O_RDWR)) == -1)
+		if ((sh->fd = open(hsfile, O_RDWR)) == -1)
 			return (ft_perror(hsfile, "unable to open history file"));
-		shell_edit_history(sh, fd);
+		if (shell_edit_history(sh, sh->fd))
+			return (-1);
 		remove(hsfile);
 		rename(".tmp", hsfile);
 	}
 	else
 	{
-		if ((fd = open(hsfile, O_RDWR | O_CREAT, S_IRUSR | S_IWUSR)) == -1)
+		if ((sh->fd = open(hsfile, O_RDWR | O_CREAT, S_IRUSR | S_IWUSR)) == -1)
 			return (ft_perror(hsfile, "unable to create history file"));
-		shell_create_history(sh, fd);
-		close(fd);
+		shell_create_history(sh, sh->fd);
+		close(sh->fd);
 	}
 	return (0);
 }
