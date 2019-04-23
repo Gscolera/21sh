@@ -6,7 +6,7 @@
 /*   By: gscolera <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 16:30:41 by gscolera          #+#    #+#             */
-/*   Updated: 2019/04/20 19:57:59 by gscolera         ###   ########.fr       */
+/*   Updated: 2019/04/23 21:22:15 by gscolera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ void	shell_delete_uploaded_history(t_shell *sh)
 			sh->history = NULL;
 		}
 		close(sh->fd);
-		TURN_OFF(HFO);
+		shell_deactivate_option(HFO);
 }
 
 void	shell_reset_history_ptr(t_shell *sh)
 {
 	sh->hist_ptr = NULL;
-	TURN_OFF(SCROLL);
+	shell_deactivate_option(SCROLL);
 	if (HISTORYFILE_OPENED)
 		shell_delete_uploaded_history(sh);
 }

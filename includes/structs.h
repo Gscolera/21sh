@@ -42,6 +42,7 @@ typedef struct			s_command
 {
 	char				line[CMD_MAX];
 	char				**argv;
+	int					options;
 	struct s_command	*next;
 }						t_command;
 
@@ -69,6 +70,7 @@ typedef struct			s_shell
 	int					fd;
 	t_reader			rd;
 	t_command			*cmd;
+	t_command			*cmd_ptr;
 	t_buffer			*history;
 	t_buffer			*hist_ptr;
 	t_buffer			*hist_last;
@@ -76,7 +78,7 @@ typedef struct			s_shell
 	struct termios		shell_settings;
 }                   	t_shell;
 
-int						g_flags;
+int						g_options;
 struct s_cursor			g_winsize;
 
 #endif

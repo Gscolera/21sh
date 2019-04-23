@@ -1,26 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shell_free_buffer.c                                :+:      :+:    :+:   */
+/*   shell_parse_input.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gscolera <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/20 19:55:40 by gscolera          #+#    #+#             */
-/*   Updated: 2019/04/23 21:22:51 by gscolera         ###   ########.fr       */
+/*   Created: 2019/04/23 20:32:55 by gscolera          #+#    #+#             */
+/*   Updated: 2019/04/23 21:20:33 by gscolera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-void	shell_free_buffer(t_buffer *buffer)
+void			shell_parse_input(t_shell *sh)
 {
-	t_buffer *tmp;
+	size_t	token_amount;
 
-	while (buffer)
-	{
-		tmp = buffer->next;
-		ft_strdel(&buffer->data);
-		free(buffer);
-		buffer = tmp;
-	}
 }

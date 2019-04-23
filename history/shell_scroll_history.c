@@ -6,7 +6,7 @@
 /*   By: gscolera <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 18:26:45 by gscolera          #+#    #+#             */
-/*   Updated: 2019/04/20 19:57:54 by gscolera         ###   ########.fr       */
+/*   Updated: 2019/04/23 21:21:33 by gscolera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int			shell_upload_prev_command(t_shell *sh, t_reader *rd)
 			hsfile = HSFILE;
 		if ((sh->fd = open(hsfile, O_RDONLY)) == -1)
 			return (-1);
-		TURN_ON(HFO);
+		shell_activate_option(HFO);
 	}
 	gnl_return_value = get_next_line(sh->fd, buffer, CMD_MAX);
 	if (gnl_return_value == 1)
@@ -64,7 +64,7 @@ void		shell_prev_command(t_shell *sh, t_reader *rd)
 	if (!SCROLLING)
 	{
 		sh->hist_ptr = sh->history;
-		TURN_ON(SCROLL);
+		shell_activate_option(SCROLL);
 	}
 	else
 	{

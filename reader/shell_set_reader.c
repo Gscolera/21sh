@@ -14,17 +14,16 @@ void	shell_reset_reader(t_shell *sh, t_reader *rd)
 void	shell_continue_reading(t_shell *sh, t_reader *rd)
 {
 	rd->cp = rd->il;
-	ft_strclr(rd->promt);
 	if (IN_SINGLE_QUOTE)
 	{
-		ft_strcpy(rd->promt, "quote> ");
+		ft_putstr("quote> ");
+		shell_deactivate_option(SQT);
 	}
 	else
 	{
-		ft_strcpy(rd->promt, "double quote> ");
+		ft_putstr("double quote> ");
+		shell_deactivate_option(DQT);
 	}
-	ft_putstr(rd->promt);
-	TURN_OFF(SQT | DQT);
 }
 
 void	shell_set_reader(t_shell *sh, t_reader *rd)
@@ -37,11 +36,10 @@ void	shell_set_reader(t_shell *sh, t_reader *rd)
 	else
 	{
 		shell_reset_reader(sh, rd);
-		TURN_ON(HE);
 	}
+	ft_printf("%d ", g_options);
 	tcsetattr(fileno(stdout), TCSANOW, &sh->shell_settings);	
 	shell_get_cursor_position(&rd->home);
 	rd->crs = rd->home;
-	TURN_ON(READ);
-
+	shell_activate_option(READ | IE);
 }

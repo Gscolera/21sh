@@ -41,6 +41,6 @@ int			shell_open(t_shell *sh)
 		exit(shell_print_error(SH_TERM_NO_ACCESS));
 	shell_get_escape_sequences(&sh->rd);
 	shell_get_winsize();
-	shell_switch_flag(SHELL_ON);
+	shell_activate_option(SHELL_ON);
 	return (0);
 }

@@ -18,7 +18,6 @@ void	cursor_right(t_reader *rd)
 		else
 		{
 			rd->home.y -= 1;
-			g_flags |= NS;
 		}
 	}
 }

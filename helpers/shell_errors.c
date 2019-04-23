@@ -10,5 +10,7 @@ int		shell_print_error(int errno)
 		ft_perror("shell", "no access to termcap database");
 	else if (errno == SH_VAR_NOT_SET)
 		ft_perror("shell", "variable is not set");
+	else if (errno == CMD_LEN_OVERFLOW)
+		ft_perror("shell syntax error", "command line is too long");
 	return (errno);
 }

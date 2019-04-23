@@ -19,7 +19,7 @@ static void	shell_execute_builtin(t_shell *sh, char *command)
 	else if (ft_strequ(command, "unset"))
 		shell_unset_env(sh);
 	else if (ft_strequ(command, "exit"))
-		g_flags = 0;
+		g_options = 0;
 }
 
 static void	shell_go_to_the_next_command(t_shell *sh)
@@ -36,8 +36,7 @@ void		shell_execute_commands(t_shell *sh)
 {
 	while (sh->cmd)
 	{
-		if (shell_builtin(sh->cmd->argv[0]))
-			shell_execute_builtin(sh, sh->cmd->argv[0]);
+		ft_putendl(sh->cmd->line);
 		shell_go_to_the_next_command(sh);
 	}
 }

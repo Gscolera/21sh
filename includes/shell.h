@@ -34,9 +34,11 @@ void			shell_delete_char(t_reader *rd);
 ****************LEXER**********************************************************
 */
 void			shell_manage_input(t_shell *sh);
+void			shell_parse_input(t_shell *sh);
 bool			shell_check_input(char *input);
 void			shell_manage_quotes(char quote);
 void			shell_get_commands(t_shell *sh, char *input);
+void			shell_expand_string(t_shell *sh, char *cmd, size_t max_len);
 /*
 ****************EXECUTER*******************************************************
 */
@@ -57,21 +59,23 @@ void			shell_prev_command(t_shell *sh, t_reader *rd);
 void			shell_next_command(t_shell *sh, t_reader *rd);
 void			shell_reset_history_ptr(t_shell *sh);
 void			shell_delete_uploaded_history(t_shell *sh);
-void			shell_reversed_i_search(t_shell *sh, t_reader *rd);
-void			shell_look_for_match(t_shell *sh, t_request *rq);
+void			shell_reversed_search(t_shell *sh, t_reader *rd);
 int				shell_upload_prev_command(t_shell *sh, t_reader *rd);
 /*
 ****************HELPERS**********************************************************
 */
 int				shell_open(t_shell *sh);
 void			shell_close(t_shell *sh);
-void			shell_switch_flag(int flag);
+void			shell_activate_option(int option);
+void			shell_deactivate_option(int option);
+void			shell_switch_option(int option);
 int				shell_print_error(int errno);
 void			shell_get_cursor_position(struct s_cursor *cursor);
 void			shell_get_winsize(void);
 void			shell_clear_input(t_reader *rd);
 void			shell_free_buffer(t_buffer *buffer);
 void			shell_print_string(t_reader *rd, char *string);
+void			shell_reduce_input_length(t_reader *rd);
 /*
 *****************CURSOR MOTION************************************************* 
 */
